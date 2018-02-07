@@ -86,3 +86,13 @@ func (a TwitterApi) GetListTweetsBySlug(slug string, ownerScreenName string, inc
 	a.queryQueue <- query{a.baseUrl + "/lists/statuses.json", v, &tweets, _GET, response_ch}
 	return tweets, (<-response_ch).err
 }
+
+//Delete a List
+func (a TwitterApi) DeleteListById(listID int64, v url.Values) (lists []List, err error){
+	v = cleanValues(v)
+	v.Set("list_id", strconv.FormatInt(listID, 10))
+
+	response_ch := make(chan response)
+	a.queryQueue <- query{a.baseUrl + "/lists/destroy.json", v, &list, _POST, response_ch}
+	return list, (<-response_ch).err
+}
