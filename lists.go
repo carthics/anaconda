@@ -88,7 +88,7 @@ func (a TwitterApi) GetListTweetsBySlug(slug string, ownerScreenName string, inc
 }
 
 //Delete a List
-func (a TwitterApi) DeleteListById(listID int64, v url.Values) (lists []List, err error){
+func (a TwitterApi) DeleteListById(listID int64, v url.Values) (list List, err error){
 	v = cleanValues(v)
 	v.Set("list_id", strconv.FormatInt(listID, 10))
 
