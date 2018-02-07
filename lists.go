@@ -55,10 +55,11 @@ func (a TwitterApi) GetListsOwnedBy(userID int64, v url.Values) (lists []List, e
 	return listResponse.Lists, (<-response_ch).err
 }
 
-func (a TwitterApi) GetListTweets(listID int64, includeRTs bool, v url.Values) (tweets []Tweet, err error) {
+func (a TwitterApi) GetListTweets(listID int64, includeRTs bool,count int64, v url.Values) (tweets []Tweet, err error) {
 	v = cleanValues(v)
 	v.Set("list_id", strconv.FormatInt(listID, 10))
 	v.Set("include_rts", strconv.FormatBool(includeRTs))
+	v.Set("count", strconv.FormatInt(count, 10))
 
 	response_ch := make(chan response)
 	a.queryQueue <- query{a.baseUrl + "/lists/statuses.json", v, &tweets, _GET, response_ch}
